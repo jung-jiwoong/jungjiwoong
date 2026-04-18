@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>정지웅 | System Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-card: #1c2333;
+      --bg-card-hover: #212a3e;
+      --accent-blue: #2563eb;
+      --accent-blue-light: #3b82f6;
+      --accent-blue-glow: rgba(37,99,235,0.25);
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #484f58;
+      --border: rgba(48,54,61,0.8);
+      --green: #22c55e;
+      --green-bg: rgba(34,197,94,0.12);
+      --radius: 14px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+      height: 60px;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.15rem; font-weight: 700; color: var(--accent-blue-light);
+      text-decoration: none; letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-menu-btn {
+      display: none; background: none; border: none;
+      cursor: pointer; color: var(--text-primary); font-size: 1.4rem;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37,99,235,0.07) 0%, transparent 60%),
+                  var(--bg-primary);
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(37,99,235,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; max-width: 640px; }
+    .hero-name {
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 30%, var(--accent-blue-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-title {
+      font-size: 1.2rem; font-weight: 400; color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 28px;
+      letter-spacing: 0.05em;
+    }
+    .hero-quote {
+      font-size: 1rem; color: var(--text-primary); opacity: 0.85;
+      line-height: 1.8; margin-bottom: 8px;
+    }
+    .hero-desc {
+      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;
+      margin-bottom: 36px;
+    }
+    .hero-contacts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .contact-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.88rem; color: var(--text-secondary);
+      text-decoration: none;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .contact-chip:hover {
+      border-color: var(--accent-blue-light);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 72px 24px; max-width: 780px; margin: 0 auto; }
+    .section-title {
+      font-size: 1.45rem; font-weight: 700;
+      margin-bottom: 32px;
+      display: flex; align-items: center; gap: 12px;
+      letter-spacing: -0.02em;
+    }
+    .section-title::before {
+      content: '';
+      display: block; width: 4px; height: 24px;
+      background: var(--accent-blue);
+      border-radius: 2px; flex-shrink: 0;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color .25s, transform .25s;
+    }
+    .card:hover {
+      border-color: rgba(37,99,235,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* ── STRENGTHS ── */
+    .strengths-grid { display: flex; flex-direction: column; gap: 16px; }
+    .strength-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color .25s, transform .25s;
+    }
+    .strength-card:hover {
+      border-color: rgba(37,99,235,0.5);
+      transform: translateY(-2px);
+    }
+    .strength-icon {
+      width: 56px; height: 56px;
+      background: var(--accent-blue);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 16px;
+    }
+    .strength-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .strength-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ── ABOUT ── */
+    .about-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .about-card p { font-size: 0.97rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 18px; }
+    .about-card p:last-child { margin-bottom: 0; }
+    .about-card p b, .about-card p strong { color: var(--text-primary); }
+    .hl-blue { color: var(--accent-blue-light); font-weight: 600; }
+    .about-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 24px;
+    }
+    .info-item {
+      background: var(--bg-card);
+      padding: 16px 20px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .info-label { font-size: 0.78rem; color: var(--text-muted); }
+    .info-value { font-size: 0.92rem; color: var(--text-primary); font-weight: 500; }
+
+    /* ── EXPERIENCE ── */
+    .timeline { display: flex; flex-direction: column; gap: 20px; }
+    .timeline-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 24px 24px 28px;
+      position: relative;
+      transition: border-color .25s, transform .25s;
+    }
+    .timeline-item:hover {
+      border-color: rgba(37,99,235,0.45);
+      transform: translateY(-2px);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent-blue);
+      border-radius: 2px 0 0 2px;
+    }
+    .timeline-period { font-size: 0.85rem; color: var(--accent-blue-light); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
+    .timeline-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    .timeline-company { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
+    .timeline-team { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 14px; }
+    .timeline-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
+    .task-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .task-list li {
+      font-size: 0.9rem; color: var(--text-secondary);
+      display: flex; align-items: flex-start; gap: 10px;
+      line-height: 1.6;
+    }
+    .task-list li::before {
+      content: '✓'; color: var(--green); flex-shrink: 0; margin-top: 1px;
+    }
+    .tag-ai {
+      display: inline-block;
+      background: var(--accent-blue);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 1px 8px; border-radius: 50px;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .tag-direct {
+      display: inline-block;
+      background: rgba(37,99,235,0.25);
+      color: var(--accent-blue-light);
+      font-size: 0.72rem;
+      padding: 1px 8px; border-radius: 50px;
+      margin-left: 6px; vertical-align: middle;
+    }
+
+    /* ── PROBLEM SOLVING ── */
+    .ps-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .ps-header {
+      background: var(--accent-blue);
+      padding: 20px 24px;
+    }
+    .ps-header h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+    .ps-header span { font-size: 0.82rem; color: rgba(255,255,255,0.75); }
+    .ps-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+    .ps-label {
+      display: inline-block;
+      background: rgba(37,99,235,0.25);
+      color: var(--accent-blue-light);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .ps-text { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; }
+    .ps-result {
+      background: var(--green-bg);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .ps-result .ps-label { background: rgba(34,197,94,0.2); color: var(--green); }
+    .ps-result .ps-text { color: var(--green); font-weight: 500; }
+
+    /* ── SKILLS ── */
+    .skill-group { margin-bottom: 24px; }
+    .skill-group:last-child { margin-bottom: 0; }
+    .skill-group-title {
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--text-secondary); margin-bottom: 12px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.83rem; font-weight: 500;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .skill-tag.active {
+      background: rgba(37,99,235,0.15);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue-light);
+    }
+
+    /* ── GROWTH ── */
+    .growth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .growth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .growth-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 16px; color: var(--text-secondary); }
+    .growth-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .growth-list li {
+      font-size: 0.88rem; color: var(--text-secondary);
+      display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+    }
+    .growth-list li .icon { flex-shrink: 0; font-size: 1rem; }
+
+    /* ── EDUCATION ── */
+    .edu-grid { display: flex; flex-direction: column; gap: 14px; }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .edu-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .edu-major { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .edu-year { font-size: 0.85rem; color: var(--accent-blue-light); font-family: 'JetBrains Mono', monospace; }
+
+    /* ── CTA ── */
+    .cta-section {
+      max-width: 780px; margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .cta-card {
+      background: var(--accent-blue);
+      border-radius: var(--radius);
+      padding: 44px 32px;
+      text-align: center;
+    }
+    .cta-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-card p { font-size: 0.97rem; color: rgba(255,255,255,0.82); line-height: 1.7; margin-bottom: 28px; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: #fff; color: var(--accent-blue);
+      font-weight: 700; font-size: 0.95rem;
+      border-radius: 50px; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── MOBILE MENU ── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-menu-btn { display: block; }
+      .nav-links.open {
+        display: flex; flex-direction: column; gap: 0;
+        position: fixed; top: 60px; left: 0; right: 0;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 0;
+      }
+      .nav-links.open li a {
+        display: block; padding: 12px 24px;
+        font-size: 1rem;
+      }
+      .growth-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── FADE-IN ANIMATION ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">정지웅</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#strengths">강점</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">경력</a></li>
+    <li><a href="#problem-solving">문제해결</a></li>
+    <li><a href="#skills">기술</a></li>
+    <li><a href="#growth">성장</a></li>
+    <li><a href="#education">학력</a></li>
+  </ul>
+  <button class="nav-menu-btn" id="menuBtn" aria-label="메뉴">☰</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <h1 class="hero-name">정지웅</h1>
+    <p class="hero-title">Security Engineer</p>
+    <p class="hero-quote">"문제가 생기기 전에 예방하고, 생기면 빠르게 해결합니다"</p>
+    <p class="hero-desc">네트워크 구축과 보안 운영 엔지니어입니다.</p>
+    <div class="hero-contacts">
+      <a class="contact-chip" href="mailto:sirosnow99@gmail.com">✉️ sirosnow99@gmail.com</a>
+      <a class="contact-chip" href="tel:01095592792">📱 010-9559-2792</a>
+      <span class="contact-chip">📍 서울</span>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths">
+  <h2 class="section-title fade-in">핵심 강점</h2>
+  <div class="strengths-grid">
+    <div class="strength-card fade-in">
+      <div class="strength-icon">📊</div>
+      <h3>모니터링 시스템 구축</h3>
+      <p>Zabbix, IPsec, Automation 기반 통합 모니터링으로 장애를 사전에 감지하고 대응 시간을 단축합니다.</p>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-icon">🔧</div>
+      <h3>방화벽 구축</h3>
+      <p>Dell, HP, Synology, QNAP 등 다양한 하드웨어 구축 경험으로 고객 맞춤 인프라를 제공합니다.</p>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-icon">⚡</div>
+      <h3>업무 자동화</h3>
+      <p>반복 업무를 자동화하여 효율을 높이고, AI 도구를 적극 활용해 생산성을 향상시킵니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT ME -->
+<section id="about">
+  <h2 class="section-title fade-in">About Me</h2>
+  <div class="about-card fade-in">
+    <p>안녕하세요, <strong>보안 엔지니어 정지웅</strong>입니다.</p>
+    <p>저는 <span class="hl-blue">"장애가 발생하면 복구하는 것"</span>보다 <span class="hl-blue">"장애가 발생하지 않도록 예방하는 것"</span>이 더 중요하다고 생각합니다. 이런 철학으로 하이온넷에서 방화벽 이중화 및 모니터링을 직접 구축했고, 이를 통해 장애 징후를 미리 감지하여 대응 시간을 단축시킬 수 있었습니다.</p>
+    <p>현재 갓루트에서 삼성화재 상주 보안 운영을 담당하고 있으며, Fortinet, FortiManager, FortiAnalyzer, Palo Alto, Skyhigh Security 등 다양한 보안 장비를 운영하며 사내 환경에 맞는 보안 솔루션을 수행하고 있습니다.</p>
+    <p>특히 <strong>새로운 기술을 배우고 적용하는 것</strong>을 즐깁니다. 개인적으로 Fortinet 장비를 구매하여 자택에 테스트 환경을 구축하고 학습용으로 활용하고 있으며, 다양한 보안 정책과 기능을 사전에 테스트하여 보안 운영 환경에 적용 가능한 기술을 검증하고 있습니다.</p>
+    <div class="about-info-grid">
+      <div class="info-item">
+        <span class="info-label">생년월일</span>
+        <span class="info-value">1999.01.02</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">경력</span>
+        <span class="info-value">약 3년</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">학력</span>
+        <span class="info-value">부평공업 고등학교</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">자격증</span>
+        <span class="info-value">ICDL</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">병역</span>
+        <span class="info-value">공익</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <h2 class="section-title fade-in">Experience</h2>
+  <div class="timeline">
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2025.12 ~ 현재</div>
+      <span class="timeline-badge">재직중</span>
+      <div class="timeline-company">갓루트</div>
+      <div class="timeline-team">서버기술팀</div>
+      <div class="timeline-desc">보안 운영 기술지원을 담당하고 있습니다.</div>
+      <ul class="task-list">
+        <li>FortiManager를 활용하여 Fortinet 방화벽 정책 수립 및 중앙 정책 관리 운영</li>
+        <li>Palo Alto Panorama를 활용한 방화벽 정책 수립 및 정책 운영</li>
+        <li>FortiAnalyzer를 통한 보안 로그 분석 및 이벤트 확인</li>
+        <li>Skyhigh Security SSL인증서 검증 정책을 통해 인증서 만료 또는 비정상 인증서를 사용하는 웹사이트 접근차단                               
+    정책 운영<span class="tag-ai">비인가 차단</span></li>
+        <li>Skyhigh Security를 활용한 웹 접속 로그 분석</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-period">2023.06 ~ 2025.12</div>
+      <span class="timeline-badge">2년 6개월</span>
+      <div class="timeline-company">하이온넷</div>
+      <div class="timeline-team">UTM Part</div>
+      <div class="timeline-desc">UTM 방화벽 솔루션 구축 및 기술지원 담당했습니다.</div>
+      <ul class="task-list">
+        <li>Cisco/FortiGate/vpn 네트워크 장비 구성 및 장애 대응</li>
+		<li>IPSEC 모니터링 시스템 구축 <span class="tag-direct">직접 설계</span></li>
+        <li>Zabbix 모니터링 시스템 구축
+        <li>Automation을 활용한 24/7 실시간 감시 및 알림 체계 구현</li> span class="tag-direct">직접 설계</span></li>
+        <li>네트워크 보안 정책 수립 및 SSL 인증서 관리</li> 
+        <li>보안 장비 이중화 구축</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROBLEM SOLVING -->
+<section id="problem-solving">
+  <h2 class="section-title fade-in">Problem Solving</h2>
+  <p class="fade-in" style="color:var(--text-secondary);margin-bottom:28px;font-size:0.95rem;">실제 업무에서 마주한 문제들을 어떻게 해결했는지 소개합니다.</p>
+
+  <div class="ps-card fade-in">
+    <div class="ps-header">
+      <h3>모니터링 시스템 부재로 인한 장애 대응 지연 문제</h3>
+      <span>하이온넷 | 2024</span>
+    </div>
+    <div class="ps-body">
+      <div>
+        <div class="ps-label">SITUATION 상황</div>
+        <p class="ps-text">기존에는 장애가 발생해야 고객 민원을 통해 인지하는 구조였습니다. 서버 상태를 실시간으로 확인할 방법이 없어 장애 대응이 항상 늦어졌고, 원인 분석에도 많은 시간이 소요되었습니다.</p>
+      </div>
+      <div>
+        <div class="ps-label">TASK 과제</div>
+        <p class="ps-text">장애를 사전에 감지하고, 발생 시 빠르게 원인을 파악할 수 있는 통합 모니터링 시스템을 구축해야 했습니다.</p>
+      </div>
+      <div>
+        <div class="ps-label">ACTION 행동</div>
+        <p class="ps-text">오픈소스인 Zabbix를 도입하여 서버/네트워크 장비의 리소스를 수집하고, Grafana로 시각화 대시보드를 구성했습니다. CPU, 메모리, 디스크 사용량이 임계치를 넘으면 Slack과 이메일로 즉시 알림이 가도록 설정했습니다.</p>
+      </div>
+      <div class="ps-result">
+        <div class="ps-label">RESULT 결과</div>
+        <p class="ps-text">장애 징후를 미리 감지하여 선제적 대응이 가능해졌고, 장애 발생 시에도 대시보드를 통해 원인을 빠르게 파악할 수 있게 되었습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-card fade-in">
+    <div class="ps-header">
+      <h3>고객사 정보 관리의 비효율성 문제</h3>
+      <span>에이텍시스템 | 2024</span>
+    </div>
+    <div class="ps-body">
+      <div>
+        <div class="ps-label">SITUATION 상황</div>
+        <p class="ps-text">고객사별 서버 정보, 장애 이력, 담당자 연락처 등이 엑셀 파일과 개인 메모에 분산되어 있었습니다. 담당자가 바뀌면 정보 인수인계가 어렵고, 이전 장애 이력을 찾는 데 많은 시간이 걸렸습니다.</p>
+      </div>
+      <div>
+        <div class="ps-label">TASK 과제</div>
+        <p class="ps-text">고객사 정보를 체계적으로 관리하고, 누구나 쉽게 조회할 수 있는 시스템이 필요했습니다.</p>
+      </div>
+      <div>
+        <div class="ps-label">ACTION 행동</div>
+        <p class="ps-text">AI 코딩 도구를 활용하여 React+Node.js 기반의 CRM 시스템을 직접 개발했습니다. 고객사별 서버 구성, 네트워크 정보, 장애 이력, 담당자 연락처를 한 곳에서 관리할 수 있도록 구성했습니다.</p>
+      </div>
+      <div class="ps-result">
+        <div class="ps-label">RESULT 결과</div>
+        <p class="ps-text">고객 문의 시 필요한 정보를 즉시 확인할 수 있게 되었고, 장애 대응 시 이전 이력을 참고하여 더 빠르게 해결할 수 있게 되었습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL SKILLS -->
+<section id="skills">
+  <h2 class="section-title fade-in">Technical Skills</h2>
+  <div class="card fade-in">
+    <div class="skill-group">
+      <div class="skill-group-title">🖥️ 서버 / 스토리지</div>
+      <div class="skill-tags">
+        <span class="skill-tag active">Dell PowerEdge</span>
+        <span class="skill-tag active">HP ProLiant</span>
+        <span class="skill-tag active">Synology NAS</span>
+        <span class="skill-tag active">QNAP NAS</span>
+        <span class="skill-tag">Supermicro</span>
+        <span class="skill-tag">RAID 구성</span>
+        <span class="skill-tag">VMware vSphere</span>
+        <span class="skill-tag">iDRAC/iLO/IPMI</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">📊 모니터링 / 자동화</div>
+      <div class="skill-tags">
+        <span class="skill-tag active">Zabbix</span>
+        <span class="skill-tag active">Grafana</span>
+        <span class="skill-tag">Bash Script</span>
+        <span class="skill-tag">PowerShell</span>
+        <span class="skill-tag">Python (기초)</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-title">🌐 네트워크 / 보안</div>
+      <div class="skill-tags">
+        <span class="skill-tag active">Cisco Switch</span>
+        <span class="skill-tag active">FortiGate</span>
+        <span class="skill-tag">VLAN</span>
+        <span class="skill-tag">VPN</span>
+        <span class="skill-tag">SSL 인증서</span>
+        <span class="skill-tag">방화벽 정책</span>
+      </div>
+    </div>
+    <div class="skill-group" style="margin-bottom:0">
+      <div class="skill-group-title">💻 OS / 기타</div>
+      <div class="skill-tags">
+        <span class="skill-tag active">Linux (Ubuntu, CentOS)</span>
+        <span class="skill-tag active">Windows Server</span>
+        <span class="skill-tag">Active Directory</span>
+        <span class="skill-tag">React (기초)</span>
+        <span class="skill-tag">Node.js (기초)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROWTH -->
+<section id="growth">
+  <h2 class="section-title fade-in">성장 방향</h2>
+  <div class="growth-grid fade-in">
+    <div class="growth-card">
+      <h3>📚 현재 학습 중</h3>
+      <ul class="growth-list">
+        <li><span class="icon">🐳</span>Docker/Kubernetes 컨테이너 기술</li>
+        <li><span class="icon">☁️</span>AWS/Azure 클라우드 기초</li>
+        <li><span class="icon">🔐</span>정보보안기사 자격증 준비</li>
+        <li><span class="icon">🐍</span>Python 자동화 스크립트 심화</li>
+      </ul>
+    </div>
+    <div class="growth-card">
+      <h3>🎯 목표</h3>
+      <ul class="growth-list">
+        <li><span class="icon">🚀</span>클라우드 + 방화벽 전문가</li>
+        <li><span class="icon">🤖</span>인프라 자동화 및 IaC(Infrastructure as Code) 도입</li>
+        <li><span class="icon">📈</span>대규모 시스템 설계 및 운영 경험</li>
+        <li><span class="icon">👥</span>팀 리딩 및 후배 육성</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <h2 class="section-title fade-in">Education &amp; Certificate</h2>
+  <div class="edu-grid">
+    <div class="edu-card fade-in">
+      <div class="edu-name">🎓 부평공업고등학교</div>
+      <div class="edu-major">전기과</div>
+      <div class="edu-year">2018년 졸업</div>
+    </div>
+	    <div class="edu-card fade-in">
+      <div class="edu-name">🎓 대림대학교</div>
+      <div class="edu-major">컴퓨터정보학과</div>
+      <div class="edu-year">자퇴</div>
+    </div>
+    <div class="edu-card fade-in">
+      <div class="edu-name">📜 컴퓨터활용능력 2급</div>
+      <div class="edu-major">한국생산성본부(kpc)</div>
+      <div class="edu-year">2019년 취득</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-card fade-in">
+    <h2>함께 일해보고 싶으시다면</h2>
+    <p>보안 운영에 관심이 있으시다면 언제든지 연락 주세요.</p>
+    <a href="mailto:jung_sirosnow99@gmail.com" class="cta-btn">✉️ 연락하기</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 정지웅. Built with HTML/CSS/JS</p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Intersection observer for fade-in
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
