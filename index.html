@@ -1,722 +1,1479 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>정지웅 | System Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg-primary: #0d1117;
-      --bg-secondary: #161b22;
-      --bg-card: #1c2333;
-      --bg-card-hover: #212a3e;
-      --accent-blue: #2563eb;
-      --accent-blue-light: #3b82f6;
-      --accent-blue-glow: rgba(37,99,235,0.25);
-      --text-primary: #e6edf3;
-      --text-secondary: #8b949e;
-      --text-muted: #484f58;
-      --border: rgba(48,54,61,0.8);
-      --green: #22c55e;
-      --green-bg: rgba(34,197,94,0.12);
-      --radius: 14px;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="정지웅 - 보안 엔지니어 포트폴리오. 서버 구축, 네트워크 관리, 모니터링 시스템 전문.">
+    <meta name="keywords" content="보안 엔지니어, Security Engineer, 방화벽, 네트워크, 리눅스 포트폴리오">
+    <meta name="author" content="정지웅">
+    <meta name="color-scheme" content="light dark">
 
-    html { scroll-behavior: smooth; }
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jung-jiwoong.github.io/">
+    <meta property="og:title" content="정지웅 - System Engineer Portfolio">
+    <meta property="og:description" content="안정적인 시스템 운영과 효율적인 인프라 구축에 전문성을 가진 시스템 엔지니어입니다.">
+    <meta property="og:image" content="https://jung-jiwoong.github.io/images/real_server.jpg">
 
-    body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    <title>정지웅 - System Engineer Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        @font-face {
+            font-family: 'Pretendard';
+            src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px;
-      height: 60px;
-      background: rgba(13,17,23,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-size: 1.15rem; font-weight: 700; color: var(--accent-blue-light);
-      text-decoration: none; letter-spacing: -0.02em;
-    }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
-    .nav-links a {
-      font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--text-primary); }
-    .nav-menu-btn {
-      display: none; background: none; border: none;
-      cursor: pointer; color: var(--text-primary); font-size: 1.4rem;
-    }
+        :root {
+            --bg-primary: #fafafa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f4f4f5;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --text-muted: #a1a1aa;
+            --accent-primary: #2563eb;
+            --accent-secondary: #3b82f6;
+            --accent-light: #dbeafe;
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --card-border: #e4e4e7;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --header-bg: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --success: #16a34a;
+            --warning: #ea580c;
+        }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 80px 24px 60px;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%),
-                  radial-gradient(ellipse 60% 40% at 80% 80%, rgba(37,99,235,0.07) 0%, transparent 60%),
-                  var(--bg-primary);
-      position: relative; overflow: hidden;
-    }
-    #hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle, rgba(37,99,235,0.08) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-    }
-    .hero-inner { position: relative; max-width: 640px; }
-    .hero-name {
-      font-size: clamp(2.8rem, 8vw, 4.5rem);
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #fff 30%, var(--accent-blue-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-title {
-      font-size: 1.2rem; font-weight: 400; color: var(--text-secondary);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 28px;
-      letter-spacing: 0.05em;
-    }
-    .hero-quote {
-      font-size: 1rem; color: var(--text-primary); opacity: 0.85;
-      line-height: 1.8; margin-bottom: 8px;
-    }
-    .hero-desc {
-      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8;
-      margin-bottom: 36px;
-    }
-    .hero-contacts { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    .contact-chip {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 9px 18px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      font-size: 0.88rem; color: var(--text-secondary);
-      text-decoration: none;
-      transition: border-color .2s, color .2s, background .2s;
-    }
-    .contact-chip:hover {
-      border-color: var(--accent-blue-light);
-      color: var(--text-primary);
-      background: var(--bg-card-hover);
-    }
+        [data-theme="dark"] {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --accent-light: #1e3a5f;
+            --card-border: #3f3f46;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+            --header-bg: linear-gradient(135deg, #0c1929 0%, #1e3a5f 100%);
+            --nav-bg: rgba(9, 9, 11, 0.95);
+        }
 
-    /* ── SECTIONS ── */
-    section { padding: 72px 24px; max-width: 780px; margin: 0 auto; }
-    .section-title {
-      font-size: 1.45rem; font-weight: 700;
-      margin-bottom: 32px;
-      display: flex; align-items: center; gap: 12px;
-      letter-spacing: -0.02em;
-    }
-    .section-title::before {
-      content: '';
-      display: block; width: 4px; height: 24px;
-      background: var(--accent-blue);
-      border-radius: 2px; flex-shrink: 0;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* ── CARD ── */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      transition: border-color .25s, transform .25s;
-    }
-    .card:hover {
-      border-color: rgba(37,99,235,0.4);
-      transform: translateY(-2px);
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* ── STRENGTHS ── */
-    .strengths-grid { display: flex; flex-direction: column; gap: 16px; }
-    .strength-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-      text-align: center;
-      transition: border-color .25s, transform .25s;
-    }
-    .strength-card:hover {
-      border-color: rgba(37,99,235,0.5);
-      transform: translateY(-2px);
-    }
-    .strength-icon {
-      width: 56px; height: 56px;
-      background: var(--accent-blue);
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
-      margin: 0 auto 16px;
-    }
-    .strength-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
-    .strength-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.8;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            padding-top: 64px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    /* ── ABOUT ── */
-    .about-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-    }
-    .about-card p { font-size: 0.97rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 18px; }
-    .about-card p:last-child { margin-bottom: 0; }
-    .about-card p b, .about-card p strong { color: var(--text-primary); }
-    .hl-blue { color: var(--accent-blue-light); font-weight: 600; }
-    .about-info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-top: 24px;
-    }
-    .info-item {
-      background: var(--bg-card);
-      padding: 16px 20px;
-      display: flex; flex-direction: column; gap: 4px;
-    }
-    .info-label { font-size: 0.78rem; color: var(--text-muted); }
-    .info-value { font-size: 0.92rem; color: var(--text-primary); font-weight: 500; }
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+            height: 64px;
+            display: flex;
+            align-items: center;
+        }
 
-    /* ── EXPERIENCE ── */
-    .timeline { display: flex; flex-direction: column; gap: 20px; }
-    .timeline-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 24px 24px 28px;
-      position: relative;
-      transition: border-color .25s, transform .25s;
-    }
-    .timeline-item:hover {
-      border-color: rgba(37,99,235,0.45);
-      transform: translateY(-2px);
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--accent-blue);
-      border-radius: 2px 0 0 2px;
-    }
-    .timeline-period { font-size: 0.85rem; color: var(--accent-blue-light); font-family: 'JetBrains Mono', monospace; margin-bottom: 8px; }
-    .timeline-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-    }
-    .timeline-company { font-size: 1.2rem; font-weight: 700; margin-bottom: 2px; }
-    .timeline-team { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 14px; }
-    .timeline-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
-    .task-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .task-list li {
-      font-size: 0.9rem; color: var(--text-secondary);
-      display: flex; align-items: flex-start; gap: 10px;
-      line-height: 1.6;
-    }
-    .task-list li::before {
-      content: '✓'; color: var(--green); flex-shrink: 0; margin-top: 1px;
-    }
-    .tag-ai {
-      display: inline-block;
-      background: var(--accent-blue);
-      color: #fff;
-      font-size: 0.72rem;
-      padding: 1px 8px; border-radius: 50px;
-      margin-left: 6px; vertical-align: middle;
-    }
-    .tag-direct {
-      display: inline-block;
-      background: rgba(37,99,235,0.25);
-      color: var(--accent-blue-light);
-      font-size: 0.72rem;
-      padding: 1px 8px; border-radius: 50px;
-      margin-left: 6px; vertical-align: middle;
-    }
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    /* ── PROBLEM SOLVING ── */
-    .ps-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .ps-header {
-      background: var(--accent-blue);
-      padding: 20px 24px;
-    }
-    .ps-header h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
-    .ps-header span { font-size: 0.82rem; color: rgba(255,255,255,0.75); }
-    .ps-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
-    .ps-label {
-      display: inline-block;
-      background: rgba(37,99,235,0.25);
-      color: var(--accent-blue-light);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      padding: 3px 10px; border-radius: 4px;
-      margin-bottom: 8px;
-    }
-    .ps-text { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; }
-    .ps-result {
-      background: var(--green-bg);
-      border: 1px solid rgba(34,197,94,0.25);
-      border-radius: 10px;
-      padding: 16px 20px;
-    }
-    .ps-result .ps-label { background: rgba(34,197,94,0.2); color: var(--green); }
-    .ps-result .ps-text { color: var(--green); font-weight: 500; }
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
 
-    /* ── SKILLS ── */
-    .skill-group { margin-bottom: 24px; }
-    .skill-group:last-child { margin-bottom: 0; }
-    .skill-group-title {
-      font-size: 0.95rem; font-weight: 600;
-      color: var(--text-secondary); margin-bottom: 12px;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-tag {
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.83rem; font-weight: 500;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-    .skill-tag.active {
-      background: rgba(37,99,235,0.15);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue-light);
-    }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
 
-    /* ── GROWTH ── */
-    .growth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .growth-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-    }
-    .growth-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 16px; color: var(--text-secondary); }
-    .growth-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .growth-list li {
-      font-size: 0.88rem; color: var(--text-secondary);
-      display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
-    }
-    .growth-list li .icon { flex-shrink: 0; font-size: 1rem; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
 
-    /* ── EDUCATION ── */
-    .edu-grid { display: flex; flex-direction: column; gap: 14px; }
-    .edu-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-    }
-    .edu-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-    .edu-major { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 8px; }
-    .edu-year { font-size: 0.85rem; color: var(--accent-blue-light); font-family: 'JetBrains Mono', monospace; }
+        .nav-links a:hover {
+            color: var(--accent-primary);
+        }
 
-    /* ── CTA ── */
-    .cta-section {
-      max-width: 780px; margin: 0 auto;
-      padding: 0 24px 80px;
-    }
-    .cta-card {
-      background: var(--accent-blue);
-      border-radius: var(--radius);
-      padding: 44px 32px;
-      text-align: center;
-    }
-    .cta-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; }
-    .cta-card p { font-size: 0.97rem; color: rgba(255,255,255,0.82); line-height: 1.7; margin-bottom: 28px; }
-    .cta-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 28px;
-      background: #fff; color: var(--accent-blue);
-      font-weight: 700; font-size: 0.95rem;
-      border-radius: 50px; text-decoration: none;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 24px;
-      border-top: 1px solid var(--border);
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--card-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
 
-    /* ── MOBILE MENU ── */
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .nav-menu-btn { display: block; }
-      .nav-links.open {
-        display: flex; flex-direction: column; gap: 0;
-        position: fixed; top: 60px; left: 0; right: 0;
-        background: var(--bg-secondary);
-        border-bottom: 1px solid var(--border);
-        padding: 8px 0;
-      }
-      .nav-links.open li a {
-        display: block; padding: 12px 24px;
-        font-size: 1rem;
-      }
-      .growth-grid { grid-template-columns: 1fr; }
-    }
+        .theme-toggle:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-primary);
+        }
 
-    /* ── FADE-IN ANIMATION ── */
-    .fade-in {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-  </style>
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(4px, 4px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 16px;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--bg-tertiary);
+        }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            color: white;
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .header-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .header-text .role {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .header-text .tagline {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            opacity: 0.85;
+            max-width: 500px;
+            margin-bottom: 32px;
+        }
+
+        .contact-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .contact-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 16px;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .contact-pill:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .header-visual {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            background: var(--bg-secondary);
+            padding: 48px;
+            margin: 32px 0;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        section h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        section h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        /* Value Proposition - 핵심 강점 */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .value-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--accent-gradient);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 16px;
+            color: white;
+        }
+
+        .value-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* About - 스토리 */
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .about-story {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 2;
+        }
+
+        .about-story p {
+            margin-bottom: 20px;
+        }
+
+        .about-story strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .about-story .highlight {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .about-aside {
+            background: var(--bg-tertiary);
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .about-aside h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Experience */
+        .experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .experience-card {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 32px;
+            padding: 32px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .experience-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .experience-period {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .experience-duration {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        .experience-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .experience-team {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .experience-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .achievement-list {
+            list-style: none;
+        }
+
+        .achievement-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .achievement-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .achievement-highlight {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent-primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Problem Solving - STAR 방식 */
+        .story-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .story-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .story-header {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 20px 24px;
+        }
+
+        .story-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .story-header span {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .story-body {
+            padding: 24px;
+        }
+
+        .star-item {
+            margin-bottom: 20px;
+        }
+
+        .star-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .star-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: var(--accent-light);
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .star-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .result-highlight {
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
+            border-left: 4px solid var(--success);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+        }
+
+        [data-theme="dark"] .result-highlight {
+            background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+        }
+
+        .result-highlight p {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Skills */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .skill-category {
+            background: var(--bg-tertiary);
+            padding: 28px;
+            border-radius: 12px;
+        }
+
+        .skill-category h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .skill-tag.primary {
+            background: var(--accent-light);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .project-image {
+            height: 180px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-content {
+            padding: 24px;
+        }
+
+        .project-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .project-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        /* Growth & Goals */
+        .growth-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .growth-card {
+            background: var(--bg-tertiary);
+            padding: 28px;
+            border-radius: 12px;
+        }
+
+        .growth-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .growth-list {
+            list-style: none;
+        }
+
+        .growth-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .growth-list li:last-child {
+            border-bottom: none;
+        }
+
+        .growth-list .icon {
+            font-size: 1.1rem;
+        }
+
+        /* Education */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .education-card {
+            background: var(--bg-tertiary);
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .education-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .education-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 4px 0;
+        }
+
+        .education-card .year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: var(--accent-gradient);
+            color: white;
+            text-align: center;
+            padding: 64px 48px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            justify-content: center;
+        }
+
+        .cta-section h2::before {
+            display: none;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cta-btn.primary {
+            background: white;
+            color: var(--accent-primary);
+        }
+
+        .cta-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--card-border);
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 4px 0;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Back to Top */
+        #back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .header-visual {
+                display: none;
+            }
+
+            .contact-pills {
+                justify-content: center;
+            }
+
+            .about-content,
+            .skills-container,
+            .growth-content,
+            .projects-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .value-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            header {
+                padding: 48px 20px;
+            }
+
+            .header-text h1 {
+                font-size: 2.25rem;
+            }
+
+            section {
+                padding: 32px 20px;
+                margin: 20px 0;
+            }
+
+            section h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="nav-logo">정지웅</a>
+            
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#problem-solving">Problem Solving</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
 
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">정지웅</a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#strengths">강점</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#experience">경력</a></li>
-    <li><a href="#problem-solving">문제해결</a></li>
-    <li><a href="#skills">기술</a></li>
-    <li><a href="#growth">성장</a></li>
-    <li><a href="#education">학력</a></li>
-  </ul>
-  <button class="nav-menu-btn" id="menuBtn" aria-label="메뉴">☰</button>
-</nav>
+            <div class="nav-right">
+                <button class="theme-toggle" id="theme-toggle" aria-label="테마 변경">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-inner">
-    <h1 class="hero-name">정지웅</h1>
-    <p class="hero-title">Security Engineer</p>
-    <p class="hero-quote">"문제가 생기기 전에 예방하고, 생기면 빠르게 해결합니다"</p>
-    <p class="hero-desc">네트워크 구축과 보안 운영 엔지니어입니다.</p>
-    <div class="hero-contacts">
-      <a class="contact-chip" href="mailto:sirosnow99@gmail.com">✉️ sirosnow99@gmail.com</a>
-      <a class="contact-chip" href="tel:01095592792">📱 010-9559-2792</a>
-      <span class="contact-chip">📍 서울</span>
-    </div>
-  </div>
-</section>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#problem-solving">Problem Solving</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
 
-<!-- STRENGTHS -->
-<section id="strengths">
-  <h2 class="section-title fade-in">핵심 강점</h2>
-  <div class="strengths-grid">
-    <div class="strength-card fade-in">
-      <div class="strength-icon">📊</div>
-      <h3>모니터링 시스템 구축</h3>
-      <p>Zabbix, IPsec, Automation 기반 통합 모니터링으로 장애를 사전에 감지하고 대응 시간을 단축합니다.</p>
-    </div>
-    <div class="strength-card fade-in">
-      <div class="strength-icon">🔧</div>
-      <h3>방화벽 구축</h3>
-      <p>Dell, HP, Synology, QNAP 등 다양한 하드웨어 구축 경험으로 고객 맞춤 인프라를 제공합니다.</p>
-    </div>
-    <div class="strength-card fade-in">
-      <div class="strength-icon">⚡</div>
-      <h3>업무 자동화</h3>
-      <p>반복 업무를 자동화하여 효율을 높이고, AI 도구를 적극 활용해 생산성을 향상시킵니다.</p>
-    </div>
-  </div>
-</section>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-text">
+                <h1>정지웅</h1>
+                <div class="role">Security Engineer</div>
+                <p class="tagline">
+                    "문제가 생기기 전에 예방하고, 생기면 빠르게 해결합니다"<br>
+                    방화벽 정책 운영과 보안 로그 분석을 기반으로 안정적인 네트워크 보안 인프라를 구축하는 방화벽 엔지니어입니다.
+                </p>
+                <div class="contact-pills" id="contact">
+                    <a href="mailto:sirosnow99@gmail.com" class="contact-pill">
+                        ✉️ sirosnow99@gmail.com
+                    </a>
+                    <a href="tel:010-9559-2792" class="contact-pill">
+                        📱 010-9559-2792
+                    </a>
+                    <span class="contact-pill">
+                        📍 인천
+                    </span>
+                </div>
+            </div>
+            <div class="header-visual">
+                🔒
+            </div>
+        </div>
+    </header>
 
-<!-- ABOUT ME -->
-<section id="about">
-  <h2 class="section-title fade-in">About Me</h2>
-  <div class="about-card fade-in">
-    <p>안녕하세요, <strong>보안 엔지니어 정지웅</strong>입니다.</p>
-    <p>저는 <span class="hl-blue">"장애가 발생하면 복구하는 것"</span>보다 <span class="hl-blue">"장애가 발생하지 않도록 예방하는 것"</span>이 더 중요하다고 생각합니다. 이런 철학으로 하이온넷에서 방화벽 이중화 및 모니터링을 직접 구축했고, 이를 통해 장애 징후를 미리 감지하여 대응 시간을 단축시킬 수 있었습니다.</p>
-    <p>현재 갓루트에서 삼성화재 상주 보안 운영을 담당하고 있으며, Fortinet, FortiManager, FortiAnalyzer, Palo Alto, Skyhigh Security 등 다양한 보안 장비를 운영하며 사내 환경에 맞는 보안 솔루션을 수행하고 있습니다.</p>
-    <p>특히 <strong>새로운 기술을 배우고 적용하는 것</strong>을 즐깁니다. 개인적으로 Fortinet 장비를 구매하여 자택에 테스트 환경을 구축하고 학습용으로 활용하고 있으며, 다양한 보안 정책과 기능을 사전에 테스트하여 보안 운영 환경에 적용 가능한 기술을 검증하고 있습니다.</p>
-    <div class="about-info-grid">
-      <div class="info-item">
-        <span class="info-label">생년월일</span>
-        <span class="info-value">1999.01.02</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">경력</span>
-        <span class="info-value">약 3년</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">학력</span>
-        <span class="info-value">부평공업 고등학교</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">자격증</span>
-        <span class="info-value">ICDL</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">병역</span>
-        <span class="info-value">공익</span>
-      </div>
-    </div>
-  </div>
-</section>
+    <main class="main-content">
+        <!-- 핵심 강점 -->
+        <section class="fade-in">
+            <h2>핵심 강점</h2>
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">📡</div>
+                    <h3>모니터링 시스템 구축</h3>
+                    <p>Zabbix, IPsec 기반 모니터링으로 장애를 사전에 감지하고 대응 시간을 단축합니다.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">🔥</div>
+                    <h3>방화벽 구축</h3>
+                    <p>Fortinet 방화벽과 Cisco Router 기반 네트워크 환경에서 보안 정책 설정, VPN 구성, 네트워크 이중화 등을 통해 안정적인 보안 인프라를 구축합니다.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <h3>로그 분석</h3>
+                    <p>보안 로그 분석을 통해 이상 징후를 탐지하고 보안 이벤트 대응을 수행합니다.</p>
+                </div>
+            </div>
+        </section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <h2 class="section-title fade-in">Experience</h2>
-  <div class="timeline">
+        <!-- About -->
+        <section id="about" class="fade-in">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-story">
+                    <p>
+                        안녕하세요, <strong>보안 엔지니어 정지웅</strong>입니다.
+                    </p>
+                    <p>
+                        저는 <span class="highlight">"장애가 발생하면 복구하는 것"</span>보다 
+                        <span class="highlight">"장애가 발생하지 않도록 예방하는 것"</span>이 더 중요하다고 생각합니다.
+                        하이온넷에서 방화벽 이중화 및 모니터링을 직접 구축했고, 이를 통해 장애 징후를 미리 감지하여 대응 시간을 단축시킬 수 있었습니다.
+                    </p>
+                    <p>
+                        현재 갓루트에서 삼성화재 상주 보안 운영을 담당하고 있으며, Fortinet, FortiManager, FortiAnalyzer, Palo Alto, Skyhigh Security 등 다양한 보안 장비를 운영하며 사내 환경에 맞는 보안 솔루션을 수행하고 있습니다.
+                    </p>
+                    <p>
+                        특히 <strong>새로운 기술을 배우고 적용하는 것</strong>을 즐깁니다.
+                        개인적으로 Fortinet 장비를 구매하여 자택에 테스트 환경을 구축하고 학습용으로 활용하고 있으며, 다양한 보안 정책과 기능을 사전에 테스트하여 보안 운영 환경에 적용 가능한 기술을 검증하고 있습니다.
+                    </p>
+                </div>
+                <div class="about-aside">
+                    <h4>기본 정보</h4>
+                    <div class="info-item">
+                        <span class="info-label">생년월일</span>
+                        <span class="info-value">1999.01.02</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">경력</span>
+                        <span class="info-value" id="total-experience">계산중...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">학력</span>
+                        <span class="info-value">부평공업 고등학교</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">자격증</span>
+                        <span class="info-value">ICDL</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">병역</span>
+                        <span class="info-value">공익</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <div class="timeline-item fade-in">
-      <div class="timeline-period">2025.12 ~ 현재</div>
-      <span class="timeline-badge">재직중</span>
-      <div class="timeline-company">갓루트</div>
-      <div class="timeline-team">서버기술팀</div>
-      <div class="timeline-desc">보안 운영 기술지원을 담당하고 있습니다.</div>
-      <ul class="task-list">
-        <li>FortiManager를 활용하여 Fortinet 방화벽 정책 수립 및 중앙 정책 관리 운영</li>
-        <li>Palo Alto Panorama를 활용한 방화벽 정책 수립 및 정책 운영</li>
-        <li>FortiAnalyzer를 통한 보안 로그 분석 및 이벤트 확인</li>
-        <li>Skyhigh Security SSL인증서 검증 정책을 통해 인증서 만료 또는 비정상 인증서를 사용하는 웹사이트 접근차단                               
-    정책 운영<span class="tag-ai">비인가 차단</span></li>
-        <li>Skyhigh Security를 활용한 웹 접속 로그 분석</li>
-      </ul>
-    </div>
+        <!-- Experience -->
+        <section id="experience" class="fade-in">
+            <h2>Experience</h2>
+            <div class="experience-list">
+                <div class="experience-card">
+                    <div class="experience-meta">
+                        <div class="experience-period">2025.12 ~ 현재</div>
+                        <div class="experience-duration">재직중</div>
+                    </div>
+                    <div class="experience-content">
+                        <h3>갓루트</h3>
+                        <div class="experience-team">Secops</div>
+                        <p class="experience-desc">
+                            보안 운영 기술지원을 담당하고 있습니다.
+                        </p>
+                        <ul class="achievement-list">
+                            <li>FortiManager를 활용하여 Fortinet 방화벽 정책 수립 및 중앙 정책 관리 운영</li>
+                            <li>Palo Alto Panorama를 활용한 방화벽 정책 수립 및 정책 운영</li>
+							<li>FortiAnalyzer를 통한 보안 로그 분석 및 이벤트 확인</li>
+                            <li>사내 IDC 관리 및 백본 네트워크 운영</li>
+							<li>Skyhigh Security SSL인증서 검증 정책을 통해 인증서 만료 또는 비정상 인증서를 사용하는 웹사이트 접근차단 정책 운영<span class="tag-ai">비인가 차단</span></li>
+							<li>Skyhigh Security를 활용한 웹 접속 로그 분석</li>
+                           </span></li>
+                        </ul>
+                    </div>
+                </div>
 
-    <div class="timeline-item fade-in">
-      <div class="timeline-period">2023.06 ~ 2025.12</div>
-      <span class="timeline-badge">2년 6개월</span>
-      <div class="timeline-company">하이온넷</div>
-      <div class="timeline-team">UTM Part</div>
-      <div class="timeline-desc">UTM 방화벽 솔루션 구축 및 기술지원 담당했습니다.</div>
-      <ul class="task-list">
-        <li>Cisco/FortiGate/vpn 네트워크 장비 구성 및 장애 대응</li>
-		<li>IPSEC 모니터링 시스템 구축 <span class="tag-direct">직접 설계</span></li>
-        <li>Zabbix 모니터링 시스템 구축
-        <li>Automation을 활용한 24/7 실시간 감시 및 알림 체계 구현</li> span class="tag-direct">직접 설계</span></li>
-        <li>네트워크 보안 정책 수립 및 SSL 인증서 관리</li> 
-        <li>보안 장비 이중화 구축</li>
-      </ul>
-    </div>
+                <div class="experience-card">
+                    <div class="experience-meta">
+                        <div class="experience-period">2023.06 ~ 2025.12</div>
+                        <div class="experience-duration">2년 6개월</div>
+                    </div>
+                    <div class="experience-content">
+                        <h3>하이온넷</h3>
+                        <div class="experience-team">UTM Team</div>
+                        <p class="experience-desc">
+                            UTM 방화벽 솔루션 구축 및 기술지원 담당했습니다.
+                        </p>
+                        <ul class="achievement-list">
+                            <li>Cisco/FortiGate/Vpn 네트워크 장비 구성 및 장애 대응</li>
+                            <li>Zabbix, IPSEC 모니터링 시스템 구축 <span class="achievement-highlight">직접 설계</span></li>
+							<li>Automation을 활용한 24/7 실시간 감시 및 알림 체계 구현 <span class="achievement-highlight"> 직접 설계</span></li>
+							<li>네트워크 보안 정책 수립 및 SSL 인증서 관리</li> 
+							<li>보안 장비 이중화 구축</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  </div>
-</section>
+        <!-- Problem Solving - STAR 방식 -->
+        <section id="problem-solving" class="fade-in">
+            <h2>Problem Solving</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                실제 업무에서 마주한 문제들을 어떻게 해결했는지 소개합니다.
+            </p>
+            <div class="story-cards">
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>모니터링 시스템 부재로 인한 장애 대응 지연 문제</h3>
+                    </div>
+                    <div class="story-body">
+                        <div class="star-item">
+                            <div class="star-label">Situation 상황</div>
+                            <p>
+                                기존에는 장애가 발생해야 고객 민원을 통해 인지하는 구조였습니다.
+                                장비 상태를 실시간으로 확인할 방법이 없어 장애 대응이 항상 늦어졌고,
+                                원인 분석에도 많은 시간이 소요되었습니다.
+                            </p>
+                        </div>
+                        <div class="star-item">
+                            <div class="star-label">Task 과제</div>
+                            <p>
+                                장애를 사전에 감지하고, 발생 시 빠르게 원인을 파악할 수 있는
+                                모니터링 시스템을 구축해야 했습니다.
+                            </p>
+                        </div>
+                        <div class="star-item">
+                            <div class="star-label">Action 행동</div>
+                            <p>
+                                IPSec 터널을 맺어 모니터링용으로 구축하였으며 Automation 기능을 활용하여 장비에 발생한 이벤트 또는 CPU, 메모리, 디스크 사용량이 임계치를 넘으면 메신저로 알림을 받도록 Slack과 이메일로 즉시 알림이 가도록 설정했습니다.
+                            </p>
+                        </div>
+                        <div class="result-highlight">
+                            <div class="star-label">Result 결과</div>
+                            <p>
+                                장애 징후를 미리 감지하여 선제적 대응이 가능해졌고,
+                                장애 발생 시에도 원인을 빠르게 파악할 수 있게 되었습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-<!-- PROBLEM SOLVING -->
-<section id="problem-solving">
-  <h2 class="section-title fade-in">Problem Solving</h2>
-  <p class="fade-in" style="color:var(--text-secondary);margin-bottom:28px;font-size:0.95rem;">실제 업무에서 마주한 문제들을 어떻게 해결했는지 소개합니다.</p>
+                <div class="story-card">
+                    <div class="story-header">
+                        <h3>VPN을 통한 웹 접속 시에만 “연결할 수 없음” 오류 발생 문제</h3>
+                    </div>
+                    <div class="story-body">
+                        <div class="star-item">
+                            <div class="star-label">Situation 상황</div>
+                            <p>
+                                Cisco 라우터 기반 IPsec VPN 환경에서 상대방 클라이언트 장비 내부 서버로의 웹 접속이 불가능한 장애가 발생했습니다. 외부 인터넷에서는 정상 접속이 가능했으나 VPN을 통한 접속 시에만 “연결할 수 없음” 오류가 발생하는 상황이었습니다.
+                            </p>
+                        </div>
+                        <div class="star-item">
+                            <div class="star-label">Task 과제</div>
+                            <p>
+                                VPN 환경에서만 발생하는 웹 접속 장애의 원인을 분석하고 정상적인 통신이 가능하도록 문제를 해결하는 것이 목표였습니다.
+                            </p>
+                        </div>
+                        <div class="star-item">
+                            <div class="star-label">Action 행동</div>
+                            <p>
+                            - ping, tcping 및 디버그 테스트를 통해 기본 네트워크 통신은 정상임을 확인
+							</p>
+							<p>
+							- 웹 접속 오류 원인을 분석하기 위해 Wireshark 패킷 분석 수행
+							</p>
+							<p>
+							- 패킷 분석 결과 TCP 세그먼트 손실 현상 발생 확인
+							</p>
+							<p>
+							- VPN 환경에서만 문제가 발생하는 점에 주목하여 IPsec 터널링 시 암호화 및 캡슐화 오버헤드로 인한 MTU 초과 가능성 조사
+							</p>
+							<p>
+							- 테스트 장비에서 MTU 값을 조정하여 테스트 진행
+                            </p>
+                        </div>
+                        <div class="result-highlight">
+                            <div class="star-label">Result 결과</div>
+                            <p>
+                                MTU 값을 조정한 이후 VPN 환경에서도 웹 접속이 정상적으로 이루어졌으며, 동일한 MTU 설정을 VPN 장비에도 적용하여 문제를 최종적으로 해결했습니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <div class="ps-card fade-in">
-    <div class="ps-header">
-      <h3>모니터링 시스템 부재로 인한 장애 대응 지연 문제</h3>
-      <span>하이온넷 | 2024</span>
-    </div>
-    <div class="ps-body">
-      <div>
-        <div class="ps-label">SITUATION 상황</div>
-        <p class="ps-text">기존에는 장애가 발생해야 고객 민원을 통해 인지하는 구조였습니다. 서버 상태를 실시간으로 확인할 방법이 없어 장애 대응이 항상 늦어졌고, 원인 분석에도 많은 시간이 소요되었습니다.</p>
-      </div>
-      <div>
-        <div class="ps-label">TASK 과제</div>
-        <p class="ps-text">장애를 사전에 감지하고, 발생 시 빠르게 원인을 파악할 수 있는 통합 모니터링 시스템을 구축해야 했습니다.</p>
-      </div>
-      <div>
-        <div class="ps-label">ACTION 행동</div>
-        <p class="ps-text">오픈소스인 Zabbix를 도입하여 서버/네트워크 장비의 리소스를 수집하고, Grafana로 시각화 대시보드를 구성했습니다. CPU, 메모리, 디스크 사용량이 임계치를 넘으면 Slack과 이메일로 즉시 알림이 가도록 설정했습니다.</p>
-      </div>
-      <div class="ps-result">
-        <div class="ps-label">RESULT 결과</div>
-        <p class="ps-text">장애 징후를 미리 감지하여 선제적 대응이 가능해졌고, 장애 발생 시에도 대시보드를 통해 원인을 빠르게 파악할 수 있게 되었습니다.</p>
-      </div>
-    </div>
-  </div>
+        <!-- Skills -->
+        <section id="skills" class="fade-in">
+            <h2>Technical Skills</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>🔥 방화벽 / 보안 장비</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">FortiGate</span>
+                        <span class="skill-tag primary">FortiManager,FortiAnalyzer</span>
+						<span class="skill-tag primary">Palo Alto</span>
+                        <span class="skill-tag primary">Skyhigh Security</span>
+                         <span class="skill-tag">SSL 인증서</span>
+                        <span class="skill-tag">NGFW(IPS / Anti-Virus / Web Filtering)</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>📊 보안 로그 / 모니터링</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">FortiAnalyzer 로그 분석</span>
+                        <span class="skill-tag primary">보안 이벤트 모니터링</span>
+                        <span class="skill-tag">Zabbix</span>
+                        <span class="skill-tag">Python (기초)</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>🌐 네트워크</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">Cisco Switch</span>
+                        <span class="skill-tag primary">HA / VRRP / HSRRP</span>
+                        <span class="skill-tag">VLAN</span>
+                        <span class="skill-tag">L2 / L3 네트워크 구성</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>🔐 VPN / 암호화</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag primary">SSL VPN</span>
+                        <span class="skill-tag primary">IPsec VPN</span>
+						<span class="skill-tag primary">OpenVPN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <div class="ps-card fade-in">
-    <div class="ps-header">
-      <h3>고객사 정보 관리의 비효율성 문제</h3>
-      <span>에이텍시스템 | 2024</span>
-    </div>
-    <div class="ps-body">
-      <div>
-        <div class="ps-label">SITUATION 상황</div>
-        <p class="ps-text">고객사별 서버 정보, 장애 이력, 담당자 연락처 등이 엑셀 파일과 개인 메모에 분산되어 있었습니다. 담당자가 바뀌면 정보 인수인계가 어렵고, 이전 장애 이력을 찾는 데 많은 시간이 걸렸습니다.</p>
-      </div>
-      <div>
-        <div class="ps-label">TASK 과제</div>
-        <p class="ps-text">고객사 정보를 체계적으로 관리하고, 누구나 쉽게 조회할 수 있는 시스템이 필요했습니다.</p>
-      </div>
-      <div>
-        <div class="ps-label">ACTION 행동</div>
-        <p class="ps-text">AI 코딩 도구를 활용하여 React+Node.js 기반의 CRM 시스템을 직접 개발했습니다. 고객사별 서버 구성, 네트워크 정보, 장애 이력, 담당자 연락처를 한 곳에서 관리할 수 있도록 구성했습니다.</p>
-      </div>
-      <div class="ps-result">
-        <div class="ps-label">RESULT 결과</div>
-        <p class="ps-text">고객 문의 시 필요한 정보를 즉시 확인할 수 있게 되었고, 장애 대응 시 이전 이력을 참고하여 더 빠르게 해결할 수 있게 되었습니다.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- Growth -->
+        <section class="fade-in">
+            <h2>성장 방향</h2>
+            <div class="growth-content">
+                <div class="growth-card">
+                    <h3>📚 현재 학습 중</h3>
+                    <ul class="growth-list">
+                        <li><span class="icon">🔥</span> Fortinet 방화벽 심화 운영 및 보안 정책 관리</li>
+                        <li><span class="icon">🔎</span> 보안 로그 분석 및 트래픽 모니터링</li>
+                        <li><span class="icon">🔐</span> 정보보안기사 자격증 준비</li>
+                        <li><span class="icon">🐍</span> Python 스크립트</li>
+                    </ul>
+                </div>
+                <div class="growth-card">
+                    <h3>🎯 목표</h3>
+                    <ul class="growth-list">
+                        <li><span class="icon">🛡️</span> 네트워크 보안 및 방화벽 운영 전문가</li>
+                        <li><span class="icon">🔍</span> 보안 로그 분석 및 위협 탐지 역량 강화</li>
+                        <li><span class="icon">🌐</span> VPN 및 네트워크 보안 아키텍처 설계 역량 확보</li>
+                        <li><span class="icon">📈</span> 기업 인프라를 보호하는 보안 엔지니어로 성장</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-<!-- TECHNICAL SKILLS -->
-<section id="skills">
-  <h2 class="section-title fade-in">Technical Skills</h2>
-  <div class="card fade-in">
-    <div class="skill-group">
-      <div class="skill-group-title">🖥️ 서버 / 스토리지</div>
-      <div class="skill-tags">
-        <span class="skill-tag active">Dell PowerEdge</span>
-        <span class="skill-tag active">HP ProLiant</span>
-        <span class="skill-tag active">Synology NAS</span>
-        <span class="skill-tag active">QNAP NAS</span>
-        <span class="skill-tag">Supermicro</span>
-        <span class="skill-tag">RAID 구성</span>
-        <span class="skill-tag">VMware vSphere</span>
-        <span class="skill-tag">iDRAC/iLO/IPMI</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">📊 모니터링 / 자동화</div>
-      <div class="skill-tags">
-        <span class="skill-tag active">Zabbix</span>
-        <span class="skill-tag active">Grafana</span>
-        <span class="skill-tag">Bash Script</span>
-        <span class="skill-tag">PowerShell</span>
-        <span class="skill-tag">Python (기초)</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">🌐 네트워크 / 보안</div>
-      <div class="skill-tags">
-        <span class="skill-tag active">Cisco Switch</span>
-        <span class="skill-tag active">FortiGate</span>
-        <span class="skill-tag">VLAN</span>
-        <span class="skill-tag">VPN</span>
-        <span class="skill-tag">SSL 인증서</span>
-        <span class="skill-tag">방화벽 정책</span>
-      </div>
-    </div>
-    <div class="skill-group" style="margin-bottom:0">
-      <div class="skill-group-title">💻 OS / 기타</div>
-      <div class="skill-tags">
-        <span class="skill-tag active">Linux (Ubuntu, CentOS)</span>
-        <span class="skill-tag active">Windows Server</span>
-        <span class="skill-tag">Active Directory</span>
-        <span class="skill-tag">React (기초)</span>
-        <span class="skill-tag">Node.js (기초)</span>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- Education -->
+        <section class="fade-in">
+            <h2>Education & Certificate</h2>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3>🎓 대림대학교</h3>
+                    <p>컴퓨터정보학과</p>
+                    <p class="year">자퇴</p>
+                </div>
+                <div class="education-card">
+                    <h3>🎓 부평공업고등학교</h3>
+                    <p>전기과</p>
+                    <p class="year">2021년 졸업</p>
+                </div>				
+                <div class="education-card">
+                    <h3>ICDL</h3>
+                    <p>한국생산성본부(kpc)</p>
+                    <p class="year">2019년 취득</p>
+                </div>
+            </div>
+        </section>
 
-<!-- GROWTH -->
-<section id="growth">
-  <h2 class="section-title fade-in">성장 방향</h2>
-  <div class="growth-grid fade-in">
-    <div class="growth-card">
-      <h3>📚 현재 학습 중</h3>
-      <ul class="growth-list">
-        <li><span class="icon">🐳</span>Docker/Kubernetes 컨테이너 기술</li>
-        <li><span class="icon">☁️</span>AWS/Azure 클라우드 기초</li>
-        <li><span class="icon">🔐</span>정보보안기사 자격증 준비</li>
-        <li><span class="icon">🐍</span>Python 자동화 스크립트 심화</li>
-      </ul>
-    </div>
-    <div class="growth-card">
-      <h3>🎯 목표</h3>
-      <ul class="growth-list">
-        <li><span class="icon">🚀</span>클라우드 + 방화벽 전문가</li>
-        <li><span class="icon">🤖</span>인프라 자동화 및 IaC(Infrastructure as Code) 도입</li>
-        <li><span class="icon">📈</span>대규모 시스템 설계 및 운영 경험</li>
-        <li><span class="icon">👥</span>팀 리딩 및 후배 육성</li>
-      </ul>
-    </div>
-  </div>
-</section>
+        <!-- CTA -->
+        <section class="cta-section fade-in">
+            <h2>함께 일해보고 싶으시다면</h2>
+            <p>
+                보안 운영에 관심이 있으시다면 언제든지 연락 주세요.
+            </p>
+            <div class="cta-buttons">
+                <a href="mailto:sirosnow99@gmail.com" class="cta-btn primary">
+                    ✉️ 이메일 보내기
+                </a>
+                <a href="tel:010-9559-2792" class="cta-btn secondary">
+                    📱 전화하기
+                </a>
+            </div>
+        </section>
+    </main>
 
-<!-- EDUCATION -->
-<section id="education">
-  <h2 class="section-title fade-in">Education &amp; Certificate</h2>
-  <div class="edu-grid">
-    <div class="edu-card fade-in">
-      <div class="edu-name">🎓 부평공업고등학교</div>
-      <div class="edu-major">전기과</div>
-      <div class="edu-year">2018년 졸업</div>
-    </div>
-	    <div class="edu-card fade-in">
-      <div class="edu-name">🎓 대림대학교</div>
-      <div class="edu-major">컴퓨터정보학과</div>
-      <div class="edu-year">자퇴</div>
-    </div>
-    <div class="edu-card fade-in">
-      <div class="edu-name">📜 컴퓨터활용능력 2급</div>
-      <div class="edu-major">한국생산성본부(kpc)</div>
-      <div class="edu-year">2019년 취득</div>
-    </div>
-  </div>
-</section>
+    <!-- Footer -->
+    <footer>
+        <p><strong>정지웅</strong> | Security Engineer</p>
+        <p>© 2026 All rights reserved.</p>
+    </footer>
 
-<!-- CTA -->
-<div class="cta-section">
-  <div class="cta-card fade-in">
-    <h2>함께 일해보고 싶으시다면</h2>
-    <p>보안 운영에 관심이 있으시다면 언제든지 연락 주세요.</p>
-    <a href="mailto:jung_sirosnow99@gmail.com" class="cta-btn">✉️ 연락하기</a>
-  </div>
-</div>
+    <button id="back-to-top" aria-label="맨 위로">↑</button>
 
-<!-- FOOTER -->
-<footer>
-  <p>© 정지웅. Built with HTML/CSS/JS</p>
-</footer>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
 
-<script>
-  // Mobile nav toggle
-  const menuBtn = document.getElementById('menuBtn');
-  const navLinks = document.getElementById('navLinks');
-  menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
+        // 경력 자동 계산
+        function calculateExperience() {
+            const experiences = [
+                { start: '2023-04', end: '2025-12' },  // 하이온넷
+                { start: '2025-12', end: null }           // 갓루트 (현재 재직중)
+            ];
 
-  // Intersection observer for fade-in
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-</script>
+            let totalMonths = 0;
+
+            experiences.forEach(exp => {
+                const startDate = new Date(exp.start);
+                const endDate = exp.end ? new Date(exp.end) : new Date();
+                
+                const months = (endDate.getFullYear() - startDate.getFullYear()) * 12 
+                             + (endDate.getMonth() - startDate.getMonth());
+                totalMonths += months;
+            });
+
+            const years = Math.floor(totalMonths / 12);
+            const months = totalMonths % 12;
+
+            let result = '약 ';
+            if (years > 0) result += years + '년 ';
+            if (months > 0) result += months + '개월';
+            
+            document.getElementById('total-experience').textContent = result.trim();
+        }
+
+        calculateExperience();
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        } else if (systemPrefersDark) {
+            html.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Mobile Menu
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Back to Top
+        const backToTop = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
 </body>
+
 </html>
